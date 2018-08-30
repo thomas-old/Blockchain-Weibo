@@ -63,8 +63,7 @@ contract WeiboRegistry{
     function unregister() public returns (string unregisteredAccountName) {
         unregisteredAccountName = _addressToAccountName[msg.sender];
         _addressToAccountName[msg.sender] = "";
-        _accountNameToAddress[unregisteredAccountName] = address(0);
-		// _accountIdToAccountAddress is never deleted on purpose
+        _accountNameToAddress[unregisteredAccountName] = address(0); 
     }
 	
     function adminUnregister(string name) public{
@@ -72,14 +71,10 @@ contract WeiboRegistry{
             address addr = _accountNameToAddress[name];
             _addressToAccountName[addr] = "";
             _accountNameToAddress[name] = address(0);
-			// _accountIdToAccountAddress is never deleted on purpose
 		}
     }
 	
     function adminSetRegistrationDisabled(bool registrationDisabled) public {
-		// currently, the code of the registry can not be updated once it is
-		// deployed. if a newer version of the registry is available, account
-		// registration can be disabled
         if (msg.sender == _registryAdmin) {
             _registrationDisabled = registrationDisabled;
         }
@@ -99,7 +94,7 @@ contract WeiboRegistry{
 			
     function adminDeleteRegistry() public {
         if (msg.sender == _registryAdmin) {
-            selfdestruct(_registryAdmin); // this is a predefined function, it deletes the contract and returns all funds to the admin's address
+            selfdestruct(_registryAdmin); 
 		}
     }
 }
